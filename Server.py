@@ -32,26 +32,25 @@ if __name__ == "__main__":
     while 1:
         read_sockets, write_sockets, error_sockets = select(connections,[],[])
 
-        for sock in read_sockets:
+        for client in read_sockets:
             # nova conexao a ser estabelecida, por leitura do socket server
-            if sock == server:
+            if type(client) != Client:
                 socket, addr = server.accept()
                 socket.send(MOTD)
                 client = Client(socket, addr)
                 connections.append(client)
-                print 'Client (%s) connected' % client.getAddress
+                print 'Client (%s) connected' % str(client.name)
                 # broadcast(socket, '[%s:%s] entrou na sala\n' % addr)
-                continue
             # novas mensagens de algum client
             else:
                 try:
-                    msg = sock.recv(buffer_size)
+                    msg = client.socket.recv(buffer_size)
                     if(msg):
                         print 'Recebida mensagem: ' + msg
-                        broadcast(sock, '\r' + '<' + str(sock.getpeername()) + '>' + msg)
+                        # broadcast(sock, '\r' + '<' + str(sock.getpeername()) + '>' + msg)
                 except:
-                    broadcast(sock, 'Client (%s, %s) se desligou do servidor' % addr)
-                    print 'Client (%s, %s) se desligou' % addr
+                    # broadcast(sock, 'Client (%s, %s) se desligou do servidor' % addr)
+                    print 'Client (%s, %s) se desligou' % client.address
                     sock_close()
                     connection.remove(sock)
                     continue

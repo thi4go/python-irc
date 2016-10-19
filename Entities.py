@@ -18,3 +18,7 @@ class Client():
 
     def send(msg):
         return self.socket.send(msg)
+
+    # implementacao para poder iterar no select()
+    def fileno(self):
+        return self.socket.fileno()

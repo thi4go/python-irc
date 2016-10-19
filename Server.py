@@ -1,5 +1,6 @@
 from socket import *
 from select import *
+from Entities import Client
 
 def broadcast(sock, msg):
     for socket in connections   :
@@ -36,9 +37,10 @@ if __name__ == "__main__":
             if sock == server:
                 socket, addr = server.accept()
                 socket.send(MOTD)
-                connections.append(socket)
-                print 'Client (%s, %s) connected' % addr
-                broadcast(socket, '[%s:%s] entrou na sala\n' % addr)
+                client = Client(socket, addr)
+                connections.append(client)
+                print 'Client (%s) connected' % client.getAddress
+                # broadcast(socket, '[%s:%s] entrou na sala\n' % addr)
                 continue
             # novas mensagens de algum client
             else:

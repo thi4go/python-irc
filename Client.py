@@ -1,37 +1,48 @@
-import socket
-import asyncore
-import collections
+from socket import *
+from select import *
+import sys
 
-class Client(asyncore.dispatcher):
+serverName = 'localhost'
+serverPort = 12003
 
-    def __init__(self, host_address, port):
-        asyncore.dispatcher.__init__(self)
-        self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
-        print 'Connecting to host at %s', host_address
-        self.connect( (host_address, port))
-        self.outbox = collections.deque()
-
-    def say(self, message):
-        self.outbox.append(message)
-        print 'Enqueued message: %s', message
-
-    def handle_write(self):
-        if not self.outbox:
-            return
-        message = self.outbox.popleft()
-        if len(message) > 1024:
-            raise ValueError('Message too long')
-        self.send(message)
-
-    def handle_read(self):
-        message = self.recv(1024)
-        print 'Received message: %s', message
-
+def chat():
+    sys.stdout.write('<Me> ')
+    sys.stdout.flush()
 
 if __name__ == "__main__":
 
-    cl = Client('127.0.0.1', 12006)
+    buffer_size  = 1024
+    ClientSocket = socket(AF_INET, SOCK_STREAM)
+    ClientSocket.settimeout(2)
 
-    message = raw_input('Say: ')
-    cl.send(message)
-    asyncore.loop()
+    try:
+        ClientSocket.connect((serverName, serverPort))
+    except:
+        print 'Nao foi possivel conectar ao servidor'
+        sys.exit()
+
+    # captura mensagem de entrada no servidor, se houver1
+    MOTD = ClientSocket.recv(buffer_size)
+    if MOTD:
+        print "<Servidor> " + MOTD
+
+    chat()
+
+    while 1:
+        readables = [sys.stdin, ClientSocket]
+        read_sockets, write_sockets, error_sockets = select(readables , [], [])
+
+        for sock in read_sockets:
+            # mensagem do servidor
+            if sock == ClientSocket:
+                msg = sock.recv(buffer_size)
+                if msg:
+                    print 'Server: %s' + msg
+                    chat()
+                else:
+                    print 'Disconectado do servidor'
+                    sys.exit()
+            else:
+                msg = sys.stdin.readline()
+                ClientSocket.send(msg)
+                chat()

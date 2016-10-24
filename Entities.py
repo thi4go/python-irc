@@ -1,8 +1,10 @@
-class Client():
+from socket import *
+
+class Client:
     def __init__(self, socket, address):
         self.socket  = socket
         self.address = address
-        self.name    = address
+        self.nickname    = address
 
     def setName(string):
         self.name = string

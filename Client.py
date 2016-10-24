@@ -1,17 +1,20 @@
 from socket import *
 from select import *
+from Entities import Client
 import sys
 
-serverName = 'localhost'
-serverPort = 12003
-
 def chat():
-    sys.stdout.write('<Me> ')
+    sys.stdout.write('<'+nickname+'> ')
     sys.stdout.flush()
+
 
 if __name__ == "__main__":
 
-    buffer_size  = 1024
+    serverName  = 'localhost'
+    serverPort  = 12003
+    buffer_size = 1024
+    nickname    = ''
+
     ClientSocket = socket(AF_INET, SOCK_STREAM)
     ClientSocket.settimeout(2)
 
@@ -24,8 +27,11 @@ if __name__ == "__main__":
     # captura mensagem de entrada no servidor, se houver1
     MOTD = ClientSocket.recv(buffer_size)
     if MOTD:
-        print "<Servidor> " + MOTD
+        print '\n<Servidor> ' + MOTD + '\n'
 
+    print 'Escolha o seu nickname: '
+    nickname = raw_input()
+    ClientSocket.send(nickname)
     chat()
 
     while 1:
@@ -37,7 +43,7 @@ if __name__ == "__main__":
             if sock == ClientSocket:
                 msg = sock.recv(buffer_size)
                 if msg:
-                    print 'Server: %s' + msg
+                    print '\n\n<Servidor>: ' + msg
                     chat()
                 else:
                     print 'Disconectado do servidor'

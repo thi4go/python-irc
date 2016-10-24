@@ -1,17 +1,30 @@
 from socket import *
 from select import *
 from Entities import Client
+from pprint import pprint
 
 def broadcast(sock, msg):
-    for socket in connections   :
-        if socket != sock and socket != server:
+    for client in connections:
+        if isinstance(client, Client) and client.socket != sock:
             try:
-                socket.send(msg)
+                client.socket.send(msg)
             except:
                 #cliente se desconectou
-                socket.close()
-                connections.remove(socket)
+                client.socket.close()
+                connections.remove(client)
 
+def acceptClient():
+    socket, addr = server.accept()
+    socket.send(MOTD)
+
+    # Cria object client
+    client = Client(socket, addr)
+    connections.append(client)
+
+    # Recebe o nickname do client
+    client.nickname = socket.recv(buffer_size)
+    print 'Client <%s> connected' % client.nickname
+    broadcast(socket, '<%s> entrou na sala\n' % client.nickname)
 
 if __name__ == "__main__":
 
@@ -34,25 +47,22 @@ if __name__ == "__main__":
 
         for client in read_sockets:
             # nova conexao a ser estabelecida, por leitura do socket server
-            if type(client) != Client:
-                socket, addr = server.accept()
-                socket.send(MOTD)
-                client = Client(socket, addr)
-                connections.append(client)
-                print 'Client (%s) connected' % str(client.name)
-                # broadcast(socket, '[%s:%s] entrou na sala\n' % addr)
+            if isinstance(client, Client) == False:
+                acceptClient()
+
             # novas mensagens de algum client
             else:
                 try:
                     msg = client.socket.recv(buffer_size)
                     if(msg):
-                        print 'Recebida mensagem: ' + msg
-                        # broadcast(sock, '\r' + '<' + str(sock.getpeername()) + '>' + msg)
+                        # print 'Recebida mensagem: ' + msg
+                        broadcast(client.socket, '\r' + '<' + str(client.nickname) + '> ' + msg)
                 except:
-                    # broadcast(sock, 'Client (%s, %s) se desligou do servidor' % addr)
+                    broadcast(client.socket, 'Client <%s> se desligou do servidor' % client.nickname)
                     print 'Client (%s, %s) se desligou' % client.address
-                    sock_close()
-                    connection.remove(sock)
+                    client.socket.close()
+                    if client in connections:
+                        connections.remove(client)
                     continue
 
     server.close()

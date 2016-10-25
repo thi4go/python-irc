@@ -3,3 +3,79 @@
 1477401252.48       INFO __main__ Client <> se conectou
 1477401265.99       INFO __main__ Client <eae> se conectou
 1477401509.83       INFO __main__ Client (127.0.0.1, 39938) se desligou
+1477402679.02       INFO __main__ Servidor iniciado na porta 12003
+1477402684.36       INFO __main__ Client <ee> se conectou
+1477402738.9        INFO __main__ Servidor iniciado na porta 12003
+1477402742.57       INFO __main__ Client <eae> se conectou
+1477402743.62       INFO __main__ Recebida mensagem de + str(client.address) + : ee
+
+1477402769.34       INFO __main__ Servidor iniciado na porta 12003
+1477402772.42       INFO __main__ Client <eae> se conectou
+1477403761.23       INFO __main__ Servidor iniciado na porta 12003
+1477403765.5        INFO __main__ Client <eae> se conectou
+1477403779.9        INFO __main__ Client (127.0.0.1, 42802) se desligou
+1477404742.71       INFO __main__ Servidor iniciado na porta 12003
+1477404746.19       INFO __main__ Client <eae> se conectou
+1477404830.17       INFO __main__ Client (127.0.0.1, 43924) se desligou
+1477404832.17       INFO __main__ Servidor iniciado na porta 12003
+1477404835.97       INFO __main__ Client <eae> se conectou
+1477404843.08       INFO __main__ Client (127.0.0.1, 44088) se desligou
+1477405317.52       INFO __main__ Servidor iniciado na porta 12003
+1477405322.04       INFO __main__ Client <eae> se conectou
+1477405424.51       INFO __main__ Client (127.0.0.1, 44738) se desligou
+1477405426.29       INFO __main__ Servidor iniciado na porta 12003
+1477405429.12       INFO __main__ Client <eae> se conectou
+1477405431.62       INFO __main__ Client (127.0.0.1, 44744) se desligou
+1477405620.18       INFO __main__ Servidor iniciado na porta 12003
+1477405623.71       INFO __main__ Client <eae> se conectou
+1477405769.13       INFO __main__ Servidor iniciado na porta 12003
+1477405772.04       INFO __main__ Client <eae> se conectou
+1477405807.39       INFO __main__ Servidor iniciado na porta 12003
+1477405810.52       INFO __main__ Client <eae> se conectou
+1477406046.54       INFO __main__ Servidor iniciado na porta 12003
+1477406079.83       INFO __main__ Servidor iniciado na porta 12003
+1477406083.81       INFO __main__ Client <eae> se conectou
+1477406086.0        INFO __main__ Client eae modificou o nick para lol
+
+1477406099.57       INFO __main__ Client <lol> se conectou
+1477406132.18       INFO __main__ Client lol modificou o nick para troca
+
+1477406134.27       INFO __main__ Recebida mensagem de('127.0.0.1', 44918): 
+
+1477406134.97       INFO __main__ Recebida mensagem de('127.0.0.1', 44918): 
+
+1477406344.82       INFO __main__ Servidor iniciado na porta 12003
+1477406348.5        INFO __main__ Client <eae> se conectou
+1477406358.93       INFO __main__ Client <eaee> se conectou
+1477406364.79       INFO __main__ Recebida mensagem de <eaee>: eae
+
+1477406366.2        INFO __main__ Recebida mensagem de <eaee>: beleza?
+
+1477406380.17       INFO __main__ Client <eaee> modificou o nick para <troca
+>
+1477406505.03       INFO __main__ Servidor iniciado na porta 12003
+1477406509.13       INFO __main__ Client <eae> se conectou
+1477406609.71       INFO __main__ Servidor iniciado na porta 12003
+1477406613.13       INFO __main__ Client <eee> se conectou
+1477406630.43       INFO __main__ Client <eae> se conectou
+1477406673.11       INFO __main__ Client <fff> se conectou
+1477406673.11       INFO __main__ Client (127.0.0.1, 45080) se desligou
+1477406675.98       INFO __main__ Client (127.0.0.1, 45086) se desligou
+1477406687.57       INFO __main__ Client <eee> se conectou
+1477406690.14       INFO __main__ Client (127.0.0.1, 45088) se desligou
+1477406733.53       INFO __main__ Servidor iniciado na porta 12003
+1477406737.15       INFO __main__ Client <eae> se conectou
+1477406738.82       INFO __main__ Client <eae> modificou o nick para <troca>
+1477406747.12       INFO __main__ Client <eee> se conectou
+1477406748.49       INFO __main__ Recebida mensagem de <eee>: eae
+
+1477406751.33       INFO __main__ Recebida mensagem de <eee>: beleza?
+
+1477406754.14       INFO __main__ Client <eee> modificou o nick para <troquei>
+1477406756.58       INFO __main__ Recebida mensagem de <troquei>: eae
+
+1477406759.55       INFO __main__ Recebida mensagem de <troquei>: isso ae
+
+1477406760.58       INFO __main__ Recebida mensagem de <troquei>: heheh
+
+1477406981.12       INFO __main__ Client (127.0.0.1, 45092) se desligou

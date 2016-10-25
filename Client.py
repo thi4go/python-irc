@@ -1,7 +1,7 @@
 from socket import *
 from select import *
 from Entities import Client
-import sys, pickle
+import sys, pickle, pprint
 
 def chat():
     sys.stdout.write('<'+nickname+'> ')
@@ -11,7 +11,7 @@ def nickIsValid(nickList, nickname):
     for n in nickList:
         if n == nickname:
             return False
-    return True    
+    return True
 
 if __name__ == "__main__":
 
@@ -32,11 +32,12 @@ if __name__ == "__main__":
     # captura mensagem de entrada no servidor, se houver
     MOTD = ClientSocket.recv(buffer_size)
     if MOTD:
-        print '\n<Servidor> ' + MOTD + '\n'
+        print '\n' + MOTD + '\n'
 
     # recebe lista de nicks do servidor
     nickListSerialized = ClientSocket.recv(buffer_size)
     nickList = pickle.loads(nickListSerialized)
+
     # verifica unicidade dos nicks
     print 'Escolha o seu nickname: '
     nickname = raw_input()
@@ -45,7 +46,6 @@ if __name__ == "__main__":
         print 'Este nickname ja esta sendo usado. Escolha outro: '
         nickname = raw_input()
         valid = nickIsValid(nickList, nickname)
-
     ClientSocket.send(nickname)
 
     chat()
@@ -66,5 +66,14 @@ if __name__ == "__main__":
                     sys.exit()
             else:
                 msg = sys.stdin.readline()
+
+                if msg.startswith('/nick'):
+                    string1   = msg.split(' ')
+                    string2   = string1[1].split('\n')
+                    newnick   = string2[0]
+                    ClientSocket.recv(buffer_size)
+                    print '\nModificado nickname de <%s> para <%s>\n' % (nickname, newnick)
+                    nickname = newnick
+
                 ClientSocket.send(msg)
                 chat()

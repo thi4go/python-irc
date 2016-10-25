@@ -1,7 +1,16 @@
 from socket import *
 from select import *
 from Entities import Client
-from pprint import pprint
+import pickle, logging, sys
+
+# logging.basicConfig(filename='IRedesC.log',level=logging.DEBUG)
+logging.basicConfig(filename='IRedesC.log', level=logging.DEBUG, format="%(created)-15s %(levelname)8s %(name)s %(message)s")
+log = logging.getLogger(__name__)
+
+ch = logging.StreamHandler(sys.stdout)
+ch.setLevel(logging.DEBUG)
+
+log.addHandler(ch)
 
 def broadcast(sock, msg):
     for client in connections:
@@ -13,9 +22,18 @@ def broadcast(sock, msg):
                 client.socket.close()
                 connections.remove(client)
 
+def sendNicknameList(socket):
+    nicks = []
+    for client in connections:
+        if isinstance(client, Client):
+            nicks.append(client.nickname)
+    data = pickle.dumps(nicks)
+    socket.send(data)
+
 def acceptClient():
     socket, addr = server.accept()
     socket.send(MOTD)
+    sendNicknameList(socket)
 
     # Cria object client
     client = Client(socket, addr)
@@ -23,7 +41,7 @@ def acceptClient():
 
     # Recebe o nickname do client
     client.nickname = socket.recv(buffer_size)
-    print 'Client <%s> connected' % client.nickname
+    log.info('Client <%s> se conectou' % client.nickname)
     broadcast(socket, '<%s> entrou na sala\n' % client.nickname)
 
 if __name__ == "__main__":
@@ -40,7 +58,8 @@ if __name__ == "__main__":
 
     connections.append(server)
 
-    print "Servidor iniciado na porta " + str(port)
+    log.info("Servidor iniciado na porta " + str(port))
+    # print "Servidor iniciado na porta " + str(port)
 
     while 1:
         read_sockets, write_sockets, error_sockets = select(connections,[],[])
@@ -55,11 +74,20 @@ if __name__ == "__main__":
                 try:
                     msg = client.socket.recv(buffer_size)
                     if(msg):
-                        # print 'Recebida mensagem: ' + msg
-                        broadcast(client.socket, '\r' + '<' + str(client.nickname) + '> ' + msg)
+                        if msg.startswith('/'):
+                            if str(msg) == '/help':
+                                print 'eh /help'
+                                start    = 'Lista dos comandos disponiveis:\n'
+                                listc    = '/list  - lista as salas de chat criadas\n'
+                                leavec   = '/leave - sai da sala e retorna ao menu inicial\n'
+                                response = start + listc + leavec
+                                client.socket.send(response)
+                        else:
+                            log.info('Recebida mensagem de + str(client.address) + : ' + msg)
+                            broadcast(client.socket, '<' + str(client.nickname) + '> ' + msg)
                 except:
                     broadcast(client.socket, 'Client <%s> se desligou do servidor' % client.nickname)
-                    print 'Client (%s, %s) se desligou' % client.address
+                    log.info('Client (%s, %s) se desligou' % client.address)
                     client.socket.close()
                     if client in connections:
                         connections.remove(client)

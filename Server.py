@@ -3,7 +3,7 @@ from select import *
 from Entities import Client
 import pickle, logging, sys, pprint
 
-# logging.basicConfig(filename='IRedesC.log',level=logging.DEBUG)
+# Definindo sistema de log
 logging.basicConfig(filename='IRedesC.log', level=logging.DEBUG, format="%(created)-15s %(levelname)8s %(name)s %(message)s")
 log = logging.getLogger(__name__)
 
@@ -30,6 +30,16 @@ def sendNicknameList(socket):
     data = pickle.dumps(nicks)
     socket.send(data)
 
+def nickIsValid(nickname):
+    nicks = []
+    for client in connections:
+        if isinstance(client, Client):
+            nicks.append(client.nickname)
+    for nick in nicks:
+        if nick == nickname:
+            return False
+    return True
+
 def acceptClient():
     socket, addr = server.accept()
     socket.send(MOTD)
@@ -37,6 +47,7 @@ def acceptClient():
 
     # Cria object client
     client = Client(socket, addr)
+    client.room = 'Loby'
     connections.append(client)
 
     # Recebe o nickname do client
@@ -44,9 +55,33 @@ def acceptClient():
     log.info('Client <%s> se conectou' % client.nickname)
     broadcast(socket, '<%s> entrou na sala\n' % client.nickname)
 
+def handleCommand(msg):
+    if msg == '/help\n':
+        start    = '\nLista dos comandos disponiveis:\n'
+        nick     = '    /nick <novo nick> - modifica o seu nickname\n'
+        listc    = '    /list             - lista as salas de chat criadas\n'
+        leavec   = '    /leave            - sai da sala e retorna ao menu inicial\n'
+        response = start + nick + listc + leavec
+        client.socket.send(response)
+
+    if msg.startswith('/nick'):
+        string1   = msg.split(' ')
+        string2   = string1[1].split('\n')
+        newnick   = string2[0]
+        valid     = nickIsValid(newnick)
+        if(valid == True):
+            client.socket.send('valid')
+            broadcast(client.socket, '<Servidor> Cliente <%s> mudou seu nickname para <%s> ' % (client.nickname, newnick))
+            log.info('Client <%s> modificou o nick para <%s>' % (client.nickname, newnick))
+            client.nickname = newnick
+        else:
+            sendNicknameList(client.socket)
+
+
 if __name__ == "__main__":
 
     connections = []
+    rooms       = ['Loby']
     buffer_size = 1024
     MOTD        = '<Servidor> Bem vindos ao sistema de comunicacao IRedesC !'
     port        = 12003
@@ -73,27 +108,10 @@ if __name__ == "__main__":
             else:
                 try:
                     msg = client.socket.recv(buffer_size)
+
                     if(msg):
-                        # lidar com os comandos
                         if msg.startswith('/'):
-
-                            if msg == '/help\n':
-                                start    = '\nLista dos comandos disponiveis:\n'
-                                nick     = '    /nick <novo nick> - modifica o seu nickname\n'
-                                listc    = '    /list             - lista as salas de chat criadas\n'
-                                leavec   = '    /leave            - sai da sala e retorna ao menu inicial\n'
-                                response = start + nick + listc + leavec
-                                client.socket.send(response)
-
-                            if msg.startswith('/nick'):
-                                string1   = msg.split(' ')
-                                string2   = string1[1].split('\n')
-                                newnick   = string2[0]
-                                broadcast(client.socket, '<Servidor> Cliente <%s> mudou seu nickname para <%s> ' % (client.nickname, newnick))
-                                log.info('Client <%s> modificou o nick para <%s>' % (client.nickname, newnick))
-                                client.nickname = newnick
-
-                        # mensagem normal de um client -> broadcast
+                            handleCommand(msg)
                         else:
                             log.info('Recebida mensagem de <%s>: %s' % (client.nickname, msg))
                             broadcast(client.socket, '<%s> %s' % (client.nickname, msg))

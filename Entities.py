@@ -2,9 +2,10 @@ from socket import *
 
 class Client:
     def __init__(self, socket, address):
-        self.socket  = socket
-        self.address = address
-        self.nickname    = address
+        self.socket   = socket
+        self.address  = address
+        self.nickname = address
+        self.room     = ''
 
     def setName(string):
         self.name = string

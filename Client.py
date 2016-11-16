@@ -18,7 +18,9 @@ if __name__ == "__main__":
     serverName  = 'localhost'
     serverPort  = 12003
     buffer_size = 1024
+    
     nickname    = ''
+    room        = ''
 
     ClientSocket = socket(AF_INET, SOCK_STREAM)
     ClientSocket.settimeout(2)
@@ -36,16 +38,18 @@ if __name__ == "__main__":
 
     # recebe lista de nicks do servidor
     nickListSerialized = ClientSocket.recv(buffer_size)
-    nickList = pickle.loads(nickListSerialized)
+    nickList           = pickle.loads(nickListSerialized)
 
     # verifica unicidade dos nicks
     print 'Escolha o seu nickname: '
     nickname = raw_input()
     valid = nickIsValid(nickList, nickname)
+
     while(valid == False):
         print 'Este nickname ja esta sendo usado. Escolha outro: '
         nickname = raw_input()
         valid = nickIsValid(nickList, nickname)
+
     ClientSocket.send(nickname)
 
     chat()
@@ -71,9 +75,27 @@ if __name__ == "__main__":
                     string1   = msg.split(' ')
                     string2   = string1[1].split('\n')
                     newnick   = string2[0]
-                    ClientSocket.recv(buffer_size)
-                    print '\nModificado nickname de <%s> para <%s>\n' % (nickname, newnick)
-                    nickname = newnick
+                    ClientSocket.send(msg)
+                    response  = ClientSocket.recv(buffer_size)
 
-                ClientSocket.send(msg)
+                    if(response == 'valid'):
+                        print '\nModificado nickname de <%s> para <%s>\n' % (nickname, newnick)
+                        nickname  = newnick
+                    else:
+                        nickList = pickle.loads(response)
+
+                        valid = nickIsValid(nickList, newnick)
+
+                        while(valid == False):
+                            print 'Este nickname ja esta sendo usado. Escolha outro: '
+                            newnick = raw_input()
+                            valid    = nickIsValid(nickList, newnick)
+
+                        print '\nModificado nickname de <%s> para <%s>\n' % (nickname, newnick)
+                        ClientSocket.send('/nick ' + newnick)
+                        nickname  = newnick
+
+                else:
+                    ClientSocket.send(msg)
+
                 chat()

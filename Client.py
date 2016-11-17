@@ -1,16 +1,15 @@
 from socket import *
 from select import *
-from Entities import Client
+from Entities import *
 import sys, pickle, pprint
 
 def chat():
-    sys.stdout.write('<'+nickname+'> ')
+    sys.stdout.write('\n<'+nickname+'> ')
     sys.stdout.flush()
 
-def nickIsValid(nickList, nickname):
-    for n in nickList:
-        if n == nickname:
-            return False
+def nickIsValid(nickList, nick):
+    if nick in nickList:
+        return False
     return True
 
 if __name__ == "__main__":
@@ -18,7 +17,7 @@ if __name__ == "__main__":
     serverName  = 'localhost'
     serverPort  = 12003
     buffer_size = 1024
-    
+
     nickname    = ''
     room        = ''
 
@@ -72,12 +71,13 @@ if __name__ == "__main__":
                 msg = sys.stdin.readline()
 
                 if msg.startswith('/nick'):
+                    ClientSocket.send(msg)
                     string1   = msg.split(' ')
                     string2   = string1[1].split('\n')
                     newnick   = string2[0]
-                    ClientSocket.send(msg)
                     response  = ClientSocket.recv(buffer_size)
-
+                    pprint.pprint(response)
+                    raw_input()
                     if(response == 'valid'):
                         print '\nModificado nickname de <%s> para <%s>\n' % (nickname, newnick)
                         nickname  = newnick
@@ -94,6 +94,18 @@ if __name__ == "__main__":
                         print '\nModificado nickname de <%s> para <%s>\n' % (nickname, newnick)
                         ClientSocket.send('/nick ' + newnick)
                         nickname  = newnick
+
+                elif msg.startswith('/help'):
+                    ClientSocket.send(msg)
+                    response = ClientSocket.recv(buffer_size)
+                    print '\r' + response
+
+                elif msg.startswith('/list'):
+                    ClientSocket.send(msg)
+                    serialized = ClientSocket.recv(buffer_size)
+                    roomList   = pickle.loads(serialized)
+                    pprint.pprint(roomList)
+                    # raw_input()
 
                 else:
                     ClientSocket.send(msg)

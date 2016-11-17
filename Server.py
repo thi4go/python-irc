@@ -1,6 +1,6 @@
 from socket import *
 from select import *
-from Entities import Client
+from Entities import *
 import pickle, logging, sys, pprint
 
 # Definindo sistema de log
@@ -30,14 +30,9 @@ def sendNicknameList(socket):
     data = pickle.dumps(nicks)
     socket.send(data)
 
-def nickIsValid(nickname):
-    nicks = []
-    for client in connections:
-        if isinstance(client, Client):
-            nicks.append(client.nickname)
-    for nick in nicks:
-        if nick == nickname:
-            return False
+def nickIsValid(nickList, nick):
+    if nick in nickList:
+        return False
     return True
 
 def acceptClient():
@@ -55,33 +50,41 @@ def acceptClient():
     log.info('Client <%s> se conectou' % client.nickname)
     broadcast(socket, '<%s> entrou na sala\n' % client.nickname)
 
-def handleCommand(msg):
-    if msg == '/help\n':
-        start    = '\nLista dos comandos disponiveis:\n'
-        nick     = '    /nick <novo nick> - modifica o seu nickname\n'
-        listc    = '    /list             - lista as salas de chat criadas\n'
-        leavec   = '    /leave            - sai da sala e retorna ao menu inicial\n'
-        response = start + nick + listc + leavec
-        client.socket.send(response)
+def handleHelp():
+    start    = '\nLista dos comandos disponiveis:\n'
+    nick     = '    /nick <novo nick> - modifica o seu nickname\n'
+    listc    = '    /list             - lista as salas de chat criadas\n'
+    leavec   = '    /leave            - sai da sala e retorna ao menu inicial\n'
+    response = start + nick + listc + leavec
+    client.socket.send(response)
 
-    if msg.startswith('/nick'):
-        string1   = msg.split(' ')
-        string2   = string1[1].split('\n')
-        newnick   = string2[0]
-        valid     = nickIsValid(newnick)
-        if(valid == True):
-            client.socket.send('valid')
-            broadcast(client.socket, '<Servidor> Cliente <%s> mudou seu nickname para <%s> ' % (client.nickname, newnick))
-            log.info('Client <%s> modificou o nick para <%s>' % (client.nickname, newnick))
-            client.nickname = newnick
-        else:
-            sendNicknameList(client.socket)
+def handleNick(msg):
+    string1   = msg.split(' ')
+    string2   = string1[1].split('\n')
+    newnick   = string2[0]
+    valid     = nickIsValid(newnick)
+    if(valid == True):
+        client.socket.send('valid')
+        broadcast(client.socket, '<Servidor> Cliente <%s> mudou seu nickname para <%s> ' % (client.nickname, newnick))
+        log.info('Client <%s> modificou o nick para <%s>' % (client.nickname, newnick))
+        client.nickname = newnick
+    else:
+        sendNicknameList(client.socket)
+
+def handleList():
+    log.info('/list chamado por %s' % client.nickname)
+    names = []
+    for room in rooms:
+        names.append(room.name)
+    data = pickle.dumps(names)
+    client.socket.send(data)
+
 
 
 if __name__ == "__main__":
 
     connections = []
-    rooms       = ['Loby']
+    rooms       = []
     buffer_size = 1024
     MOTD        = '<Servidor> Bem vindos ao sistema de comunicacao IRedesC !'
     port        = 12003
@@ -91,6 +94,9 @@ if __name__ == "__main__":
     server.bind(('0.0.0.0', port))
     server.listen(5)
 
+    lobby       = Room('Lobby', server)
+
+    rooms.append(lobby)
     connections.append(server)
 
     log.info("Servidor iniciado na porta " + str(port))
@@ -110,8 +116,22 @@ if __name__ == "__main__":
                     msg = client.socket.recv(buffer_size)
 
                     if(msg):
-                        if msg.startswith('/'):
-                            handleCommand(msg)
+                        if msg.startswith('/help'):
+                            handleHelp()
+                        elif msg.startswith('/nick'):
+                            string1   = msg.split(' ')
+                            string2   = string1[1].split('\n')
+                            newnick   = string2[0]
+                            valid     = nickIsValid(newnick)
+                            if(valid == True):
+                                client.socket.send('valid')
+                                broadcast(client.socket, '<Servidor> Cliente <%s> mudou seu nickname para <%s> ' % (client.nickname, newnick))
+                                log.info('Client <%s> modificou o nick para <%s>' % (client.nickname, newnick))
+                                client.nickname = newnick
+                            else:
+                                sendNicknameList(client.socket)
+                        elif msg.startswith('/list'):
+                            handleList()
                         else:
                             log.info('Recebida mensagem de <%s>: %s' % (client.nickname, msg))
                             broadcast(client.socket, '<%s> %s' % (client.nickname, msg))

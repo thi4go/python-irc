@@ -1,4 +1,5 @@
 from socket import *
+import itertools
 
 class Client:
     def __init__(self, socket, address):
@@ -7,21 +8,19 @@ class Client:
         self.nickname = address
         self.room     = ''
 
-    def setName(string):
-        self.name = string
-
-    def getName():
-        return self.name
-
-    def getSocket():
-        return self.socket
-
-    def getAddress():
-        return self.address
-
     def send(msg):
         return self.socket.send(msg)
 
     # implementacao para poder iterar no select()
     def fileno(self):
         return self.socket.fileno()
+
+
+class Room:
+
+    newid = itertools.count().next
+
+    def __init__(self, name, admin):
+        self.id    = Room.newid()
+        self.name  = name
+        self.admin = admin

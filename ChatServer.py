@@ -1,7 +1,7 @@
 from socket import *
 from select import *
 from Entities import *
-from ServerEntity import *
+from Server import *
 import pickle, logging, sys, pprint
 
 
@@ -27,15 +27,23 @@ if __name__ == "__main__":
 
                     if(msg):
                         if msg.startswith('/help'):
-                            server.handle_help()
+                            # start    = '\nLista dos comandos disponiveis:\n'
+                            # nick     = '    /nick <novo nick> - modifica o seu nickname\n'
+                            # listc    = '    /list             - lista as salas de chat criadas\n'
+                            # leavec   = '    /leave            - sai da sala e retorna ao menu inicial\n'
+                            # response = start + nick + listc + leavec
+                            # client.socket.send(response)
+                            server.handle_help(client)
+                            # raw_input()
                         elif msg.startswith('/nick'):
-                            server.handle_nick()
+                            server.handle_nick(msg, client)
                         elif msg.startswith('/list'):
-                            server.handle_list()
+                            server.handle_list(client)
                         else:
                             server.logger.info('Recebida mensagem de <%s>: %s' % (client.nickname, msg))
                             server.broadcast(client.socket, '<%s> %s' % (client.nickname, msg))
                 except:
+                    print 'entrei no expect pq?'
                     server.broadcast(client.socket, '<Servidor> Client <%s> se desligou do servidor' % client.nickname)
                     server.logger.info('Client (%s, %s) se desligou' % client.address)
                     client.socket.close()

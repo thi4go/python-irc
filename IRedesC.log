@@ -290,3 +290,124 @@
 1479347955.31       INFO __main__ Client <qqq> se conectou
 1479347957.35       INFO __main__ Client (127.0.0.1, 37618) se desligou
 1479390439.58       INFO __main__ Servidor iniciado na porta 12003
+1479433832.45       INFO ServerEntity Servidor iniciado na self.porta 12003
+1479433865.02       INFO ServerEntity Client <eae> se conectou
+1479433869.86       INFO ServerEntity Recebida mensagem de <eae>: dasd
+
+1479433873.47       INFO ServerEntity Client (127.0.0.1, 46002) se desligou
+1479476927.68       INFO Server Servidor iniciado na self.porta 12003
+1479476932.86       INFO Server Client <eae> se conectou
+1479476942.68       INFO Server Client <eae?> se conectou
+1479476944.59       INFO Server Recebida mensagem de <eae?>: eae
+
+1479476946.01       INFO Server Recebida mensagem de <eae?>: bora bora?
+
+1479476949.07       INFO Server Recebida mensagem de <eae>: bora po
+
+1479476950.27       INFO Server Recebida mensagem de <eae>: agora sim
+
+1479476951.53       INFO Server Recebida mensagem de <eae>: ta lindo isso
+
+1479476952.03       INFO Server Recebida mensagem de <eae>: pqp
+
+1479476953.95       INFO Server Recebida mensagem de <eae>: você é foda
+
+1479476956.56       INFO Server Client (127.0.0.1, 51406) se desligou
+1479477062.48       INFO Server Servidor iniciado na self.porta 12003
+1479477066.02       INFO Server Client <eee> se conectou
+1479477067.7        INFO Server /list chamado por eee
+1479477067.7        INFO Server Client (127.0.0.1, 51410) se desligou
+1479477910.06       INFO Server Client <eae> se conectou
+1479477911.92       INFO Server Client (127.0.0.1, 51644) se desligou
+1479477976.62       INFO Server Client <eae> se conectou
+1479477981.57       INFO Server Client <eee> se conectou
+1479477982.74       INFO Server Recebida mensagem de <eee>: eae
+
+1479477984.94       INFO Server Client (127.0.0.1, 51648) se desligou
+1479477988.31       INFO Server Recebida mensagem de <eae>: eae
+
+1479477989.55       INFO Server Recebida mensagem de <eae>: lol em
+
+1479477993.45       INFO Server Client (127.0.0.1, 51646) se desligou
+1479478172.25       INFO Server Servidor iniciado na self.porta 12003
+1479478175.45       INFO Server Client <eee> se conectou
+1479478176.64       INFO Server Client (127.0.0.1, 51712) se desligou
+1479478244.13       INFO Server Client <eaee> se conectou
+1479478245.11       INFO Server Client (127.0.0.1, 51718) se desligou
+1479478277.18       INFO Server Servidor iniciado na self.porta 12003
+1479478283.97       INFO Server Client <eae> se conectou
+1479478285.26       INFO Server Client (127.0.0.1, 51722) se desligou
+1479478333.14       INFO Server Servidor iniciado na self.porta 12003
+1479478337.23       INFO Server Client <eae> se conectou
+1479478338.93       INFO Server Client (127.0.0.1, 51726) se desligou
+1479478372.72       INFO Server Servidor iniciado na self.porta 12003
+1479478376.26       INFO Server Client <eae> se conectou
+1479478377.79       INFO Server Client (127.0.0.1, 51728) se desligou
+1479478407.87       INFO Server Servidor iniciado na self.porta 12003
+1479478410.4        INFO Server Client <eae> se conectou
+1479478411.85       INFO Server Client (127.0.0.1, 51730) se desligou
+1479478481.95       INFO Server Servidor iniciado na self.porta 12003
+1479478485.35       INFO Server Client <eae> se conectou
+1479478486.24       INFO Server Client (127.0.0.1, 51732) se desligou
+1479478562.9        INFO Server Client <> se conectou
+1479478571.11       INFO Server Client (127.0.0.1, 51780) se desligou
+1479478600.79       INFO Server Servidor iniciado na self.porta 12003
+1479478605.02       INFO Server Client <eee> se conectou
+1479478606.92       INFO Server /list chamado por eee
+1479478606.92       INFO Server Client (127.0.0.1, 51782) se desligou
+1479478710.42       INFO Server Servidor iniciado na self.porta 12003
+1479478716.2        INFO Server Client <eae> se conectou
+1479478717.39       INFO Server Client (127.0.0.1, 51840) se desligou
+1479478899.39       INFO Server Servidor iniciado na self.porta 12003
+1479478902.73       INFO Server Client <eae> se conectou
+1479478904.18       INFO Server Client (127.0.0.1, 51976) se desligou
+1479478950.41       INFO Server Servidor iniciado na self.porta 12003
+1479478955.95       INFO Server Client <eae> se conectou
+1479478964.67       INFO Server Client (127.0.0.1, 51994) se desligou
+1479479118.26       INFO Server Servidor iniciado na self.porta 12003
+1479479122.49       INFO Server Client <eae> se conectou
+1479479124.04       INFO Server Client (127.0.0.1, 52010) se desligou
+1479479163.85       INFO Server Servidor iniciado na self.porta 12003
+1479479170.03       INFO Server Client <eee> se conectou
+1479479248.76       INFO Server Client (127.0.0.1, 52012) se desligou
+1479479250.84       INFO Server Servidor iniciado na self.porta 12003
+1479479258.4        INFO Server Client <eae> se conectou
+1479479259.35       INFO Server Client (127.0.0.1, 52014) se desligou
+1479479309.14       INFO Server Servidor iniciado na self.porta 12003
+1479479311.52       INFO Server Client <eae> se conectou
+1479479320.26       INFO Server Client <eee> se conectou
+1479479371.38       INFO Server Servidor iniciado na self.porta 12003
+1479479375.11       INFO Server Client <eae> se conectou
+1479479381.23       INFO Server Recebida mensagem de <eae>: ae
+
+1479479390.98       INFO Server Servidor iniciado na self.porta 12003
+1479479394.18       INFO Server Client <eae> se conectou
+1479479398.24       INFO Server Recebida mensagem de <eae>: ee
+
+1479479405.7        INFO Server Client (127.0.0.1, 52044) se desligou
+1479479489.62       INFO Server Servidor iniciado na self.porta 12003
+1479479496.61       INFO Server Client <eae> se conectou
+1479479497.96       INFO Server /list chamado por eae
+1479479497.96       INFO Server Client (127.0.0.1, 52080) se desligou
+1479479984.42       INFO Server Servidor iniciado na self.porta 12003
+1479479989.69       INFO Server Client <eae> se conectou
+1479479991.81       INFO Server Client (127.0.0.1, 52130) se desligou
+1479480024.4        INFO Server Client <eae> se conectou
+1479480025.92       INFO Server Client (127.0.0.1, 52132) se desligou
+1479480287.68       INFO Server Servidor iniciado na self.porta 12003
+1479480291.3        INFO Server Client <eae> se conectou
+1479480310.09       INFO Server Servidor iniciado na self.porta 12003
+1479480314.56       INFO Server Client <eae> se conectou
+1479480321.19       INFO Server Recebida mensagem de <eae>: 
+
+1479480344.18       INFO Server Servidor iniciado na self.porta 12003
+1479480347.16       INFO Server Client <eae> se conectou
+1479480349.49       INFO Server Client (127.0.0.1, 52242) se desligou
+1479480433.56       INFO Server Servidor iniciado na self.porta 12003
+1479480436.15       INFO Server Client <eae> se conectou
+1479480437.11       INFO Server /list chamado por eae
+1479480617.44       INFO Server Client <eee> se conectou
+1479480619.39       INFO Server /list chamado por eee
+1479480644.18       INFO Server Client <eaeee> se conectou
+1479480644.18       INFO Server Client (127.0.0.1, 52246) se desligou
+1479480645.68       INFO Server /list chamado por eaeee

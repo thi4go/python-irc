@@ -61,6 +61,7 @@ if __name__ == "__main__":
             # mensagem do servidor
             if sock == ClientSocket:
                 msg = sock.recv(buffer_size)
+
                 if msg:
                     print '\r' + msg
                     chat()
@@ -104,8 +105,9 @@ if __name__ == "__main__":
                     ClientSocket.send(msg)
                     serialized = ClientSocket.recv(buffer_size)
                     roomList   = pickle.loads(serialized)
-                    pprint.pprint(roomList)
-                    # raw_input()
+                    print '\nLista de Salas: \n'
+                    for room in roomList:
+                        print 'Nome => ' + room + '\n'
 
                 else:
                     ClientSocket.send(msg)
